@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
+import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
@@ -16,14 +17,14 @@ import javax.transaction.UserTransaction;
 import br.com.caelum.livraria.modelo.Autor;
 
 @Stateless
-//@TransactionManagement(TransactionManagementType.CONTAINER) // opcional (CMT)
-@TransactionManagement(TransactionManagementType.BEAN) // permite controlar a transação do JPA pelo código (BMT)
+@TransactionManagement(TransactionManagementType.CONTAINER) // opcional (CMT)
+//@TransactionManagement(TransactionManagementType.BEAN) // permite controlar a transação do JPA pelo código (BMT)
 public class AutorDao {
 	
 	@PersistenceContext
 	private EntityManager em;
 	
-	@Inject
+	/*@Inject
 	UserTransaction tx;
 	/**
 	 * Metodo chamado de callBack
@@ -37,8 +38,8 @@ public class AutorDao {
 		System.out.println("AutorDao foi criado");
 	}
 	
-	//@TransactionAttribute(TransactionAttributeType.REQUIRED) //opcional (padrão)
-	@TransactionAttribute(TransactionAttributeType.MANDATORY) //
+	@TransactionAttribute(TransactionAttributeType.REQUIRED) //opcional (padrão)
+	//@TransactionAttribute(TransactionAttributeType.MANDATORY) //
 	public void salva(Autor autor) {
 		System.out.println("Salvando o autor: " + autor.getNome());
 		
@@ -48,15 +49,12 @@ public class AutorDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		
-		
-		try {
-			tx.begin();
-			em.persist(autor);
-			tx.commit();
-		} catch (Exception e) {}
+
+		em.persist(autor);
 		
 		System.out.println("Autor " + autor.getNome() + " foi salvo");
+		
+		//throw new RuntimeErrorException(null, "Serviço externo deu erro!");
 	} 
 	
 	public List<Autor> todosAutores() {

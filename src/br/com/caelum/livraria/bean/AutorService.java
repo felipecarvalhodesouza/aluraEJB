@@ -15,10 +15,14 @@ public class AutorService {
 	private AutorDao dao;
 	
 	//required
-	public void adiciona(Autor autor) {
+	public void adiciona(Autor autor){
 		// regra de negócio
 		
 		dao.salva(autor);
+		
+		// outra regra de negócio
+		
+		throw new LivrariaException();
 	}
 
 	public List<Autor> todosAutores() {
