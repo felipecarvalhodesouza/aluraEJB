@@ -5,7 +5,6 @@ import java.util.List;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
-import br.com.caelum.livraria.dao.AutorDao;
 import br.com.caelum.livraria.modelo.Autor;
 
 @Model
@@ -18,18 +17,18 @@ public class AutorBean {
 	 * Quem controla o Dao é a EJB
 	 */
 	@Inject
-	private AutorDao dao;
+	private AutorService service;
 	
 	public Autor getAutor() {
 		return autor;
 	}
 	
 	public void cadastra() {
-		this.dao.salva(autor);
+		this.service.adiciona(autor);
 		this.autor = new Autor();
 	}
 	
 	public List<Autor> getAutores() {
-		return this.dao.todosAutores();
+		return this.service.todosAutores();
 	}
 }
