@@ -3,15 +3,35 @@ package br.com.caelum.livraria.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
 import br.com.caelum.livraria.modelo.Usuario;
 
+/**
+ * Ao transformar o banco numa session bean com a anotação stateless,
+ * ela fica a merce da configuração do standalone.xml
+ * Porém não faz sentido existirem 20 instâncias de banco
+ * Por isso, usamos a anotação Singleton
+ * Por padrão os beans são criados sob demanda, mas com a anotação startup
+ * podemos forçar a sua criação na hora de inicialização do JBoss
+ * (Eager Inicialization)
+ */
+@Singleton
+@Startup
 public class Banco {
 	
 	public static List<Livro> livros = new ArrayList<Livro>();
 	public static List<Autor> autores = new ArrayList<Autor>();
 	public static List<Usuario> usuarios = new ArrayList<Usuario>();
+	
+	@PostConstruct
+	void aposCriacao(){
+		System.out.println("Criou o banco");
+	}
 	
 	private static int chave = 1;
 	
