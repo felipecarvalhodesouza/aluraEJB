@@ -8,17 +8,17 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.inject.Inject;
-import javax.management.RuntimeErrorException;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.UserTransaction;
 
+import br.com.caelum.livraria.interceptor.LogInterceptador;
 import br.com.caelum.livraria.modelo.Autor;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER) // opcional (CMT)
 //@TransactionManagement(TransactionManagementType.BEAN) // permite controlar a transação do JPA pelo código (BMT)
+//@Interceptors({LogInterceptador.class})
 public class AutorDao {
 	
 	@PersistenceContext
@@ -41,6 +41,9 @@ public class AutorDao {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED) //opcional (padrão)
 	//@TransactionAttribute(TransactionAttributeType.MANDATORY) //
 	public void salva(Autor autor) {
+		
+//		long currentTimeMillis = System.currentTimeMillis();
+		
 		System.out.println("Salvando o autor: " + autor.getNome());
 		
 		/*try {
@@ -55,6 +58,8 @@ public class AutorDao {
 		System.out.println("Autor " + autor.getNome() + " foi salvo");
 		
 		//throw new RuntimeErrorException(null, "Serviço externo deu erro!");
+		
+//		System.out.println("Tempo gasto" + (System.currentTimeMillis() - currentTimeMillis));
 	} 
 	
 	public List<Autor> todosAutores() {

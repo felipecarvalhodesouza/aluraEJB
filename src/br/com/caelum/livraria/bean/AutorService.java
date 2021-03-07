@@ -22,7 +22,7 @@ public class AutorService {
 		
 		// outra regra de negócio
 		
-		throw new LivrariaException();
+		//throw new LivrariaException();
 	}
 
 	public List<Autor> todosAutores() {
